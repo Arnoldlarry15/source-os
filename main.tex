@@ -1,0 +1,109 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{hyperref}
+\usepackage{cite}
+\usepackage{listings}
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\title{\textbf{SourceOS: A Cognitive Pipeline and Attention Allocation Engine\\for Human Executive Function Augmentation}}
+
+\author{
+    \textbf{Larry Arnold}\\
+    Founder, LA Builds \& Systems Architect\\
+    \texttt{arnoldlarry15@github.com}
+}
+\date{June 2026 (Revised: October 2026)}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+Contemporary personal productivity tools exacerbate cognitive fragmentation by shifting the burden of taxonomic organization---tagging, folder filing, calendar scheduling, and status tracking---onto the user. In contrast, biological human executive function relies on continuous selective attention, automatic salience filtering, and the dynamic decay of low-priority mental states. We present \textbf{SourceOS}, an AI-native system architecture designed to act as an externalized prefrontal cortex. SourceOS implements a five-stage cognitive pipeline: unconstrained multimodal stream-of-consciousness capture, automatic ontological entity extraction into six primitive schema classes (Thought, Task, Idea, Goal, Commitment, Person), temporal memory decay modeling, and multi-objective attention ranking. Rather than maximizing task completion metrics or organizational complexity, SourceOS optimizes for \textit{cognitive relief}---explicitly identifying what to ignore, calculating unresolved mental load, and dynamically synthesizing the single highest-leverage next action. We define the system ontology, formal priority scoring function, graph decay mathematics, and reference implementation architecture.
+\end{abstract}
+
+\vspace{1em}
+\noindent \textbf{Keywords:} Cognitive architecture, Attention allocation, Human-AI interaction, Executive function, Semantic memory decay, Personal knowledge graphs.
+
+\section{Introduction}
+Herbert Simon famously observed that ``a wealth of information creates a poverty of attention'' \cite{simon1971designing}. Over five decades later, digital tools routinely demand that users spend significant working memory maintaining metadata across multiple disjointed productivity silos. 
+
+Current note-taking, project management, and task systems fail because they treat human cognition as a relational database. Users are forced to classify unformed thoughts into rigid hierarchies before their meaning has stabilized. This produces friction, context switching, and mental fatigue \cite{sweller1988cognitive, baddeley1992working}.
+
+\textbf{SourceOS} inverts this paradigm. Instead of demanding that the user structure information to serve software, SourceOS ingests raw cognitive entropy and applies machine reasoning to perform the executive labor of filtering, contextualizing, prioritizing, and surfacing action.
+
+\section{The Cognitive Pipeline}
+The SourceOS execution pipeline operates across five continuous stages:
+\begin{enumerate}
+    \item \textbf{Frictionless Multimodal Ingestion:} High-bandwidth, zero-classification capture via hotkeys, speech-to-text streams, or raw markdown notes.
+    \item \textbf{Semantic Decomposition and Ontological Mapping:} An LLM parser deconstructs the unstructured stream into discrete cognitive entities, extracting latent intent, implicit urgency, emotional tone, and referenced entities.
+    \item \textbf{Dynamic Semantic Graph with Memory Decay:} Extracted entities populate a directed knowledge graph where edge weights decay over time according to an Ebbinghaus-inspired temporal curve.
+    \item \textbf{Attention Allocation and Ranking Engine:} Computes multi-factor priority scores based on active user themes, deadlines, contextual relevance, and accumulated cognitive debt.
+    \item \textbf{Executive Reflection and Surface Synthesis:} Translates complex internal state into three concise outputs: \textit{Today's Focus}, \textit{Next Best Action}, and \textit{Unresolved Mental Load}.
+\end{enumerate}
+
+\section{Cognitive Object Ontology}
+Every input object is resolved into one of six core ontological classes:
+\begin{itemize}
+    \item \textbf{Thought:} Ephemeral observations, affective states, or reflections. Requires no execution; serves as contextual background.
+    \item \textbf{Task:} Actionable commitments with verifiable completion states.
+    \item \textbf{Idea:} Generative hypotheses, product sketches, or creative concepts requiring incubation.
+    \item \textbf{Goal:} Macroscopic desired outcomes that anchor and weight associated tasks.
+    \item \textbf{Commitment:} Social contracts and explicit obligations made to external stakeholders.
+    \item \textbf{Person:} Human relationships, collaborators, and contact contexts linked to obligations.
+\end{itemize}
+
+\section{Attention Ranking and Priority Dynamics}
+SourceOS replaces static priority tags (e.g., High/Medium/Low) with a continuous dynamic priority functional $\mathcal{P}(O, t)$:
+\begin{equation}
+\mathcal{P}(O, t) = w_I \cdot \mathcal{I}(O) + w_U \cdot \mathcal{U}(O, t) + w_A \cdot \mathcal{A}(O, \mathcal{G}_{\text{themes}}) + w_E \cdot \mathcal{E}(O) - \lambda \cdot \Delta t
+\end{equation}
+where:
+\begin{itemize}
+    \item $\mathcal{I}(O) \in [0, 1]$: Intrinsic importance derived from goal hierarchy alignment.
+    \item $\mathcal{U}(O, t)$: Temporal urgency modeled as hyperbolic discounting toward deadline $t_d$:
+    \begin{equation}
+    \mathcal{U}(O, t) = \frac{1}{1 + \gamma (t_d - t)}
+    \end{equation}
+    \item $\mathcal{A}(O, \mathcal{G}_{\text{themes}})$: Cosine similarity between the object vector embedding and active user thematic goals.
+    \item $\mathcal{E}(O)$: Emotional friction / cognitive weight score (stress footprint).
+    \item $\lambda \cdot \Delta t$: Temporal decay attenuation for dormant thoughts that lack active reinforcement.
+\end{itemize}
+
+\section{The Unresolved Mental Load Engine}
+A distinguishing architectural property of SourceOS is its quantification of latent cognitive debt:
+\begin{equation}
+\mathcal{L}_{\text{mental}}(t) = \sum_{O_i \in \text{Unresolved}} \mathcal{E}(O_i) \cdot \ln(1 + \Delta t_i)
+\end{equation}
+By surfacing items that are perpetually deferred yet generate ongoing background anxiety, SourceOS prompts active resolution: execute, delegate, or consciously archive.
+
+\section{System Architecture and Implementation}
+
+\begin{table}[htbp]
+\centering
+\caption{Architectural Subsystems of the SourceOS Platform}
+\label{tab:sourceos_arch}
+\begin{tabular}{lll}
+\toprule
+\textbf{Subsystem} & \textbf{Core Function} & \textbf{Technology Stack} \\
+\midrule
+Capture Ingress Gateway & Low-latency raw input ingestion & FastAPI, WebSockets, Whisper API \\
+Cognitive Parser & Entity extraction \& classification & Claude / GPT-4o structured JSON \\
+Vector Memory Store & Semantic retrieval \& theme alignment & pgvector / Qdrant, OpenAI \texttt{text-embedding-3} \\
+Ranking Engine & Dynamic attention prioritization & Asynchronous Python execution \\
+Executive Dashboard & Minimalist reflection interface & Next.js, Tailwind CSS, TypeScript \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\section{Conclusion}
+SourceOS shifts the locus of computing from passive information repository to active executive partner. By automating extraction, modeling memory decay, and mathematically optimizing attention allocation, SourceOS protects human focus, reduces decision fatigue, and translates chaotic internal thoughts into focused external momentum.
+
+\bibliographystyle{ieeetr}
+\bibliography{references}
+
+\end{document}
